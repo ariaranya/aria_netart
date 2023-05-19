@@ -1,107 +1,74 @@
-document.body.style.margin   = 0
-document.body.style.overflow = `hidden`
+let x =200
+let y = 200;
 
-const USER = 0;
-const FOURIER = 1;
-
-let x = [];
-let y = [];
-let fourierX;
-let fourierY;
-let time = 0;
-let path = [];
-let drawing = [];
-let state = -1;
-
-function mousePressed() {
-  state = USER;
-  drawing = [];
-  x = [];
-  y = [];
-  time = 0;
-  path = [];
-}
-
-function mouseReleased() {
-  state = FOURIER;
-  const skip = 1;
-  for (let i = 0; i < drawing.length; i += skip) {
-    x.push(drawing[i].x);
-    y.push(drawing[i].y);
-  }
-  fourierX = dft(x);
-  fourierY = dft(y);
-
-  fourierX.sort((a, b) => b.amp - a.amp);
-  fourierY.sort((a, b) => b.amp - a.amp);
-}
 
 function setup() {
-  createCanvas(800, 600);
-  createP("Draw something!");
-}
-
-function epiCycles(x, y, rotation, fourier) {
-  for (let i = 0; i < fourier.length; i++) {
-    let prevx = x;
-    let prevy = y;
-    let freq = fourier[i].freq;
-    let radius = fourier[i].amp;
-    let phase = fourier[i].phase;
-    x += radius * cos(freq * time + phase + rotation);
-    y += radius * sin(freq * time + phase + rotation);
-
-    stroke(255, 100);
-    noFill();
-    ellipse(prevx, prevy, radius * 2);
-    stroke(255);
-    line(prevx, prevy, x, y);
-  }
-  return createVector(x, y);
+  createCanvas(700, 700);
+  angleMode(DEGREES);
+  background(0);
+  noLoop();
+  
 }
 
 function draw() {
-  background(0);
+  
 
-  if (state == USER) {
-    let point = createVector(mouseX - width / 2, mouseY - height / 2);
-    drawing.push(point);
-    stroke(255);
-    noFill();
-    beginShape();
-    for (let v of drawing) {
-      vertex(v.x + width / 2, v.y + height / 2);
-    }
-    endShape();
-  } else if (state == FOURIER) {
-    let vx = epiCycles(width / 2, 100, 0, fourierX);
-    let vy = epiCycles(100, height / 2, HALF_PI, fourierY);
-    let v = createVector(vx.x, vy.y);
-    path.unshift(v);
-    line(vx.x, vx.y, v.x, v.y);
-    line(vy.x, vy.y, v.x, v.y);
+  
+  background(80,130,200);
 
-    beginShape();
-    noFill();
-    for (let i = 0; i < path.length; i++) {
-      vertex(path[i].x, path[i].y);
-    }
-    endShape();
-
-    const dt = TWO_PI / fourierY.length;
-    time += dt;
-
-    if (time > TWO_PI) {
-      time = 0;
-      path = [];
-    }
-  }
-
-  // if (wave.length > 250) {
-  //   wave.pop();
-  // }
+  
+  
+  //trails
+  translate(width/2,height/2+300);
+  branch(100);
+  
+ 
 }
 
+function branch(len){
+ 
+  push();
+  if(len>10){
+    strokeWeight(map(len,10,100,1,15));
+    stroke(80,40,30);
+    line(0,0,0,-len);
+    translate(0,-len);
+    rotate(random(-20,-30));
+    branch(len*random(0.7,0.9));
+    rotate(random(50,60));
+    branch(len*random(0.7,0.9));
+  }else{
+    var r = 220 + random(-20,20);
+    var g = 120 + random(-20,20);
+    var b = 80 + random(-20,20);
+    fill(r,g,b,150);
+    noStroke();
+   
+    
+  //create leaves and need loop
+    beginShape();
+    for(var i =45; i<135; i++){
+    var rad =15;
+    var x = rad*cos(i)
+    var y = rad*sin(i);
+    vertex(x,y);
+  } // half opposite direction
+    for(var i = 135; i>40; i--) {
+    var rad =15;
+    var x = rad*cos(i);
+    var y = rad*sin(-i)+20;
+    vertex(x,y);
+  }
+  endShape(CLOSE);
+  }
+  
+  pop();
+
+
+  
+ 
+
+}
 
   
  
