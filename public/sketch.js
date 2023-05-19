@@ -12,7 +12,7 @@ var points = []
   
 function setup() {
   createCanvas(windowWidth, windowHeight)
-  background(255)
+  background(0)
   angleMode(DEGREES)
   noiseDetail(1)
   
