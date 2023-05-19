@@ -1,66 +1,74 @@
 document.body.style.margin   = 0
 document.body.style.overflow = `hidden`
 
-var points = []
-  var mult 
-  var r1
-  var r2
-  var g1
-  var g2
-  var b1 
-  var b2  
-  
+let x =200
+let y = 200;
+
+
 function setup() {
-  createCanvas(windowWidth, windowHeight)
-  background(30)
-  angleMode(DEGREES)
-  noiseDetail(1)
+  createCanvas(700, 700);
+  angleMode(DEGREES);
+  background(0);
+  noLoop();
   
-  var density = 20
-  var space = width / density
-  
-  for (var x = 0; x < width; x += space){
-      for (var y = 0; y < height; y += space){
-          var p = createVector(x + random(-10, 10), y + random(-10, 10))
-          points.push(p)
-        }
-    }
-     r1 = random(255)
-     r2 = random(255)
-     g1 = random(255)
-     g2 = random(255)
-     b1 = random(255)
-     b2 = random(255)
-  
-     mult = random(0.005, 0.01)
-  
-       
-  }
+}
 
 function draw() {
-  noStroke()
+  
+
+  
+  background(80,130,200);
+
   
   
-  for (var i = 0; i < points. length; i++){
-    
-    var r = map(points[i].x, 0, width, r1, r2)
-    var g = map(points[i].y, 0, height, g1, g2)
-    var b = map(points[i].x, 0, width, b1, b2)
-    var alpha = map(dist(width / 2, height /2, points[i].x, points[i].y), 0, 350, 400,0)
-    
-    fill(r, g, b, alpha)
-    
-    
-    var angle = map(noise(points[i].x * mult, points[i].y * mult), 0, 1, 0, 720)
-    
-    points[i].add(createVector(cos(angle), sin(angle)))
-    
-    if (dist(width / 2, height /2, points[i].x, points[i].y) < 350){
-        
-    ellipse(points[i].x, points[i].y, 1)    
-    
-      }
-    
-    }
+  //trails
+  translate(width/2,height/2+300);
+  branch(100);
   
+ 
+}
+
+function branch(len){
+ 
+  push();
+  if(len>10){
+    strokeWeight(map(len,10,100,1,15));
+    stroke(80,40,30);
+    line(0,0,0,-len);
+    translate(0,-len);
+    rotate(random(-20,-30));
+    branch(len*random(0.7,0.9));
+    rotate(random(50,60));
+    branch(len*random(0.7,0.9));
+  }else{
+    var r = 220 + random(-20,20);
+    var g = 120 + random(-20,20);
+    var b = 80 + random(-20,20);
+    fill(r,g,b,150);
+    noStroke();
+   
+    
+  //create leaves and need loop
+    beginShape();
+    for(var i =45; i<135; i++){
+    var rad =15;
+    var x = rad*cos(i)
+    var y = rad*sin(i);
+    vertex(x,y);
+  } // half opposite direction
+    for(var i = 135; i>40; i--) {
+    var rad =15;
+    var x = rad*cos(i);
+    var y = rad*sin(-i)+20;
+    vertex(x,y);
   }
+  endShape(CLOSE);
+  }
+  
+  pop();
+
+
+  
+ 
+
+}
