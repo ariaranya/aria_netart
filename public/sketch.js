@@ -10,7 +10,7 @@ let isMousePressed = false;
 function setup() {
   let canvas = createCanvas(500, 500);
   canvas.parent("sketch-container");
-  img = loadImage("img.jpg");
+  img = loadImage("image/img.jpg");
   radius = width * 0.3;
   let col1 = color(255, 242, 197);
   let col2 = color(252, 232, 225);
