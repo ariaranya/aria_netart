@@ -56,7 +56,7 @@ function draw() {
 
   push(); // 保存当前绘图环境
 
-  translate(centerX, centerY); // 将坐标原点移到屏幕中心
+  translate(width / 2, height / 2); // 将坐标原点移到屏幕中心
   scale(scaleFactor); // 缩放图形
 
   for (let i = 0; i < radius * 1; i += 0.1) {
