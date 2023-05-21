@@ -6,12 +6,12 @@ let a2 = 30;
 let col = [];
 
 let isMousePressed = false;
-let scaleFactor = 0.5; // 缩放因子
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(500, 500);
+  canvas.parent("sketch-container");
   img = loadImage("img.jpg");
-  radius = min(width, height) * 0.35 * scaleFactor; // 调整半径大小
+  radius = width * 0.3;
   let col1 = color(255, 242, 197);
   let col2 = color(252, 232, 225);
   let col3 = color(197, 210, 23, 50);
@@ -36,14 +36,7 @@ function draw() {
   }
 
   let ctx = drawingContext;
-  const gradient = ctx.createRadialGradient(
-    centerX,
-    centerY,
-    20,
-    centerX,
-    centerY,
-    radius
-  );
+  const gradient = ctx.createRadialGradient(width / 2, height / 2, 20, width / 2, height / 2, radius);
   gradient.addColorStop(0, "#B9BEDE");
   gradient.addColorStop(0.5 * noise(frameCount * 0.004), "white");
   gradient.addColorStop(0.56 * noise(frameCount * 0.007), "#F2E3E4");
@@ -51,13 +44,8 @@ function draw() {
   gradient.addColorStop(0.8, "#E0C3C3");
   gradient.addColorStop(0.9 * noise(frameCount * 0.008), "#D8E2F1");
   gradient.addColorStop(0.9 * noise(frameCount * 0.01), "#FFE364");
-  gradient.addColorStop(0.9, "#E2D1E2");
+  gradient.addColorStop(0.9, "#E2D1E2"); 
   gradient.addColorStop(1, "#F8F6F4");
-
-  push(); // 保存当前绘图环境
-
-  translate(width / 2, height / 2); // 将坐标原点移到屏幕中心
-  scale(scaleFactor); // 缩放图形
 
   for (let i = 0; i < radius * 1; i += 0.1) {
     let x = int(centerX + i * cos(a2));
@@ -112,8 +100,6 @@ function draw() {
     stroke(pixelColor);
     point(x, y);
   }
-
-  pop(); // 恢复之前保存的绘图环境
 }
 
 function mousePressed() {
@@ -122,9 +108,4 @@ function mousePressed() {
 
 function mouseReleased() {
   isMousePressed = false;
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  radius = min(width, height) * 0.35 * scaleFactor; // 调整半径大小
 }
