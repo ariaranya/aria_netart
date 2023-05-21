@@ -7,23 +7,33 @@ let a2 = 30;
 let col = [];
 
 let isMousePressed = false;
+let bgMusic;
+let isMusicPlaying = false;
+
+function preload() {
+  bgMusic = loadSound("bg_music.mp3");
+}
 
 function setup() {
-  createCanvas(500, 500);
-  img = loadImage("image/img.jpg");
+  createCanvas(600, 600);
+  img = loadImage("img.jpg");
   radius = width * 0.35;
-  let col1 = color(255, 242, 197);//197, 210, 23 //217, 214, 218
-  let col2 = color (252, 232, 225) //252, 232, 225 //255, 187, 0
-  let col3 = color(197, 210, 23, 50);//241, 238, 255 //223, 215, 215
+  let col1 = color(255, 242, 197);
+  let col2 = color(252, 232, 225);
+  let col3 = color(197, 210, 23, 50);
   col = [col1, col2, col3];
   angleMode(DEGREES);
+  
+  // Play background music
+  bgMusic.loop();
+  bgMusic.stop(); // Stop the music initially
 }
 
 function draw() {
   if (isMousePressed) {
-    a -= 0.4; 
+    a -= 0.4;
   } else {
-    a += 0.4; 
+    a += 0.4;
   }
 
   a2 += map(mouseX, 0, width, 0.2, 1);
@@ -36,18 +46,24 @@ function draw() {
   }
 
   let ctx = drawingContext;
-  const gradient = ctx.createRadialGradient(width / 2, height / 2, 20, width / 2, height / 2, radius);
+  const gradient = ctx.createRadialGradient(
+    width / 2,
+    height / 2,
+    20,
+    width / 2,
+    height / 2,
+    radius
+  );
   gradient.addColorStop(0, "#B9BEDE");
   gradient.addColorStop(0.5 * noise(frameCount * 0.004), "white");
   gradient.addColorStop(0.56 * noise(frameCount * 0.007), "#F2E3E4");
   gradient.addColorStop(0.7 * noise(frameCount * 0.009), "#E3D2D4");
   gradient.addColorStop(0.8, "#E0C3C3");
   gradient.addColorStop(0.9 * noise(frameCount * 0.008), "#D8E2F1");
-  gradient.addColorStop(0.9 * noise(frameCount * 0.01), "#FFE364"); //##FFE364
-  gradient.addColorStop(0.9, "#E2D1E2"); 
+  gradient.addColorStop(0.9 * noise(frameCount * 0.01), "#FFE364");
+  gradient.addColorStop(0.9, "#E2D1E2");
   gradient.addColorStop(1, "#F8F6F4");
-  
-  
+
   for (let i = 0; i < radius * 1; i += 0.1) {
     let x = int(centerX + i * cos(a2));
     let y = int(centerY + i * sin(a2));
@@ -78,12 +94,12 @@ function draw() {
     point(x, y);
   }
 
-  for (let i = radius * 0.5; i < radius * 0.8; i += 0.2) {//0.5 .08 .02
+  for (let i = radius * 0.5; i < radius * 0.8; i += 0.2) {
     let x = int(centerX + i * cos(a));
     let y = int(centerY + i * sin(a));
-    let colorStart = color(224, 195, 195, 80);//184, 186, 213//224, 195, 195, 80
-    let colorEnd = color(247, 236, 240);//247, 236, 240, 50 //239240228
-    let t = map(i, radius * 0.7, radius * 0.3, 0, 1);//0.4 0.6 1
+    let colorStart = color(224, 195, 195, 80);
+    let colorEnd = color(247, 236, 240);
+    let t = map(i, radius * 0.7, radius * 0.3, 0, 1);
     let lerpedColor = lerpColor(
       colorStart,
       colorEnd,
@@ -100,6 +116,18 @@ function draw() {
     let pixelColor = img.get(x, y);
     stroke(pixelColor);
     point(x, y);
+  }
+}
+
+function keyPressed() {
+  if (key === "p" || key === "P") {
+    if (!isMusicPlaying) {
+      bgMusic.loop();
+      isMusicPlaying = true;
+    } else {
+      bgMusic.stop();
+      isMusicPlaying = false;
+    }
   }
 }
 
