@@ -8,7 +8,7 @@ let col = [];
 let isMousePressed = false;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight); // 调整画布大小
+  createCanvas(600, 600); // 调整画布大小
   img = loadImage("img.jpg");
   radius = width * 0.35; // 放大半径
   let col1 = color(255, 242, 197);
