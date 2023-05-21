@@ -8,10 +8,10 @@ let col = [];
 let isMousePressed = false;
 
 function setup() {
-  let canvas = createCanvas(500, 500);
+  let canvas = createCanvas(600, 600);
   canvas.parent("sketch-container");
   img = loadImage("image/img.jpg");
-  radius = width * 0.3;
+  radius = width * 0.35;
   let col1 = color(255, 242, 197);
   let col2 = color(252, 232, 225);
   let col3 = color(197, 210, 23, 50);
