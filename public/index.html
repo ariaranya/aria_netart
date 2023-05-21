@@ -3,13 +3,17 @@
 <head>
     <title> b l a n k </title>
     <style>
-        body {
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #sketch-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
+            height: 100%;
         }
 
         canvas {
@@ -19,6 +23,8 @@
 </head>
 
 <body>
+    <div id="sketch-container"></div>
+
     <script src="p5.min.js"></script>
     <script src="sketch.js"></script>
 </body>
