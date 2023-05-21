@@ -11,7 +11,7 @@ let bgMusic;
 let isMusicPlaying = false;
 
 function preload() {
-  bgMusic = loadSound("music/bg_music.mp3");
+  bgMusic = loadSound("bg_music.mp3");
 }
 
 function setup() {
