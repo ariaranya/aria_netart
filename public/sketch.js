@@ -8,10 +8,10 @@ let col = [];
 let isMousePressed = false;
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(500, 500);
   canvas.parent("sketch-container");
   img = loadImage("image/img.jpg");
-  radius = min(width, height) * 0.3;
+  radius = width * 0.3;
   let col1 = color(255, 242, 197);
   let col2 = color(252, 232, 225);
   let col3 = color(197, 210, 23, 50);
@@ -44,7 +44,7 @@ function draw() {
   gradient.addColorStop(0.8, "#E0C3C3");
   gradient.addColorStop(0.9 * noise(frameCount * 0.008), "#D8E2F1");
   gradient.addColorStop(0.9 * noise(frameCount * 0.01), "#FFE364");
-  gradient.addColorStop(0.9, "#E2D1E2");
+  gradient.addColorStop(0.9, "#E2D1E2"); 
   gradient.addColorStop(1, "#F8F6F4");
 
   for (let i = 0; i < radius * 1; i += 0.1) {
@@ -108,8 +108,4 @@ function mousePressed() {
 
 function mouseReleased() {
   isMousePressed = false;
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
 }
