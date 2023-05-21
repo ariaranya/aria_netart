@@ -8,7 +8,7 @@ let col = [];
 let isMousePressed = false;
 
 function setup() {
-  let canvas = createCanvas(500, 500);
+  let canvas = createCanvas(600, 600);
   canvas.parent("sketch-container");
   img = loadImage("image/img.jpg");
   radius = width * 0.3;
