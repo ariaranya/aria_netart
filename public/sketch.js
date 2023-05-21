@@ -9,8 +9,8 @@ let col = [];
 let isMousePressed = false;
 
 function setup() {
-  createCanvas(600, 600);
-  img = loadImage("img.jpg");
+  createCanvas(500, 500);
+  img = loadImage("image/img.jpg");
   radius = width * 0.35;
   let col1 = color(255, 242, 197);//197, 210, 23 //217, 214, 218
   let col2 = color (252, 232, 225) //252, 232, 225 //255, 187, 0
