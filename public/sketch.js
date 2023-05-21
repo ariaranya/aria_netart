@@ -6,11 +6,12 @@ let a2 = 30;
 let col = [];
 
 let isMousePressed = false;
+let scaleFactor = 0.5; // 缩放因子
 
 function setup() {
-  createCanvas(600, 600); // 调整画布大小
+  createCanvas(windowWidth, windowHeight);
   img = loadImage("img.jpg");
-  radius = width * 0.35; // 放大半径
+  radius = width * 0.35 * scaleFactor; // 调整半径大小
   let col1 = color(255, 242, 197);
   let col2 = color(252, 232, 225);
   let col3 = color(197, 210, 23, 50);
@@ -35,7 +36,14 @@ function draw() {
   }
 
   let ctx = drawingContext;
-  const gradient = ctx.createRadialGradient(width / 2, height / 2, 20, width / 2, height / 2, radius);
+  const gradient = ctx.createRadialGradient(
+    width / 2,
+    height / 2,
+    20,
+    width / 2,
+    height / 2,
+    radius
+  );
   gradient.addColorStop(0, "#B9BEDE");
   gradient.addColorStop(0.5 * noise(frameCount * 0.004), "white");
   gradient.addColorStop(0.56 * noise(frameCount * 0.007), "#F2E3E4");
@@ -45,6 +53,10 @@ function draw() {
   gradient.addColorStop(0.9 * noise(frameCount * 0.01), "#FFE364");
   gradient.addColorStop(0.9, "#E2D1E2");
   gradient.addColorStop(1, "#F8F6F4");
+
+  push(); // 保存当前绘图环境
+
+  scale(scaleFactor); // 缩放图形
 
   for (let i = 0; i < radius * 1; i += 0.1) {
     let x = int(centerX + i * cos(a2));
@@ -99,6 +111,8 @@ function draw() {
     stroke(pixelColor);
     point(x, y);
   }
+
+  pop(); // 恢复之前保存的绘图环境
 }
 
 function mousePressed() {
@@ -108,6 +122,10 @@ function mousePressed() {
 function mouseReleased() {
   isMousePressed = false;
 }
-  
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  radius = width * 0.35 * scaleFactor; // 调整半径大小
+}
  
 
