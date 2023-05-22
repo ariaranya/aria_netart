@@ -26,8 +26,64 @@
     <div id="sketch-container"></div>
 
     <script src="p5.min.js"></script>
-    <script src="sketch.js"></script>
+    <script>
+        let img;
+        let a = 0;
+        let radius;
+        let index = 0;
+        let a2 = 30;
+        let col = [];
+
+        let isMousePressed = false;
+        let bgMusic;
+        let isMusicPlaying = false;
+
+        function preload() {
+          bgMusic = loadSound('bg_music.mp3');
+          img = loadImage('img.jpg');
+        }
+
+        function setup() {
+          let canvas = createCanvas(600, 600);
+          canvas.parent('sketch-container');
+          radius = width * 0.35;
+          let col1 = color(255, 242, 197);
+          let col2 = color(252, 232, 225);
+          let col3 = color(197, 210, 23, 50);
+          col = [col1, col2, col3];
+          angleMode(DEGREES);
+
+          // Play background music
+          bgMusic.loop();
+          bgMusic.stop(); // Stop the music initially
+        }
+
+        function draw() {
+          // Your drawing code here
+          // ...
+
+        }
+
+        function mousePressed() {
+          isMousePressed = true;
+        }
+
+        function mouseReleased() {
+          isMousePressed = false;
+        }
+
+        function keyTyped() {
+          if (key === 'p' || key === 'P') {
+            if (!isMusicPlaying) {
+              bgMusic.loop();
+              isMusicPlaying = true;
+            } else {
+              bgMusic.stop();
+              isMusicPlaying = false;
+            }
+          }
+        }
+    </script>
 </body>
 </html>
-
 
