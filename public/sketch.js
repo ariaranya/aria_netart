@@ -7,11 +7,16 @@ let a2 = 30;
 let col = [];
 
 let isMousePressed = false;
+let bgMusic;
+let isMusicPlaying = false;
+
+function preload() {
+  bgMusic = loadSound("bg_music.mp3");
+}
 
 function setup() {
-  let canvas = createCanvas(600, 600);
-  canvas.parent('sketch-container');
-  
+  createCanvas(600, 600);
+  canvas.parent("sketch-container");
   img = loadImage("img.jpg");
   radius = width * 0.35;
   let col1 = color(255, 242, 197);
@@ -19,13 +24,25 @@ function setup() {
   let col3 = color(197, 210, 23, 50);
   col = [col1, col2, col3];
   angleMode(DEGREES);
+  
+  // Play background music
+  bgMusic.loop();
+  bgMusic.stop(); // Stop the music initially
 }
 
 function draw() {
   if (isMousePressed) {
-    a -= 0.4; 
+    a -= 0.4;
+    if (isMusicPlaying) {
+      bgMusic.pause(); // Pause the music if mouse is pressed
+      isMusicPlaying = false;
+    }
   } else {
-    a += 0.4; 
+    a += 0.4;
+    if (!isMusicPlaying) {
+      bgMusic.loop(); // Continue playing the music if not already playing
+      isMusicPlaying = true;
+    }
   }
 
   a2 += map(mouseX, 0, width, 0.2, 1);
@@ -48,7 +65,7 @@ function draw() {
   gradient.addColorStop(0.9 * noise(frameCount * 0.01), "#FFE364");
   gradient.addColorStop(0.9, "#E2D1E2");
   gradient.addColorStop(1, "#F8F6F4");
-  
+
   for (let i = 0; i < radius * 1; i += 0.1) {
     let x = int(centerX + i * cos(a2));
     let y = int(centerY + i * sin(a2));
@@ -110,4 +127,16 @@ function mousePressed() {
 
 function mouseReleased() {
   isMousePressed = false;
+}
+
+function keyTyped() {
+  if (key === 'p' || key === 'P') {
+    if (!isMusicPlaying) {
+      bgMusic.loop();
+      isMusicPlaying = true;
+    } else {
+      bgMusic.stop();
+      isMusicPlaying = false;
+    }
+  }
 }
