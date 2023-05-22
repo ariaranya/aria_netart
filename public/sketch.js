@@ -1,3 +1,8 @@
+document.body.style.margin   = 0
+document.body.style.overflow = `hidden`
+
+
+
 let img;
 let a = 0;
 let radius;
