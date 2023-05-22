@@ -11,13 +11,13 @@ let bgMusic;
 let isMusicPlaying = false;
 
 function preload() {
-  bgMusic = loadSound("bg_music.mp3");
+  bgMusic = loadSound(song/"bg_music.mp3");
 }
 
 function setup() {
   createCanvas(600, 600);
   canvas.parent("sketch-container");
-  img = loadImage("img.jpg");
+  img = loadImage(image/"img.jpg");
   radius = width * 0.35;
   let col1 = color(255, 242, 197);
   let col2 = color(252, 232, 225);
