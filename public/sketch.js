@@ -4,31 +4,51 @@ document.body.style.overflow = `hidden`
 
 
 let img;
+let img2;
 let a = 0;
 let radius;
 let index = 0;
 let a2 = 30;
 let col = [];
 
+let blueBubbles = [];
+
 let isMousePressed = false;
+let bgMusic;
+let isMusicPlaying = false;
+
+function preload() {
+  bgMusic = loadSound("bg_music.mp3");
+}
 
 function setup() {
-  let canvas = createCanvas(500, 500);
-  canvas.parent("sketch-container");
-  img = loadImage("image/img.jpg");
-  radius = width * 0.3;
+  createCanvas(600, 600);
+  img = loadImage("img.jpg");
+  radius = width * 0.35;
   let col1 = color(255, 242, 197);
   let col2 = color(252, 232, 225);
   let col3 = color(197, 210, 23, 50);
   col = [col1, col2, col3];
   angleMode(DEGREES);
+  
+  // Play background music
+  bgMusic.loop();
+  bgMusic.stop(); // Stop the music initially
 }
 
 function draw() {
   if (isMousePressed) {
-    a -= 0.4; // 逆时针旋转
+    a -= 0.4;
+    if (isMusicPlaying) {
+      bgMusic.pause(); // Pause the music if mouse is pressed
+      isMusicPlaying = false;
+    }
   } else {
-    a += 0.4; // 顺时针旋转
+    a += 0.4;
+    if (!isMusicPlaying) {
+      bgMusic.loop(); // Continue playing the music if not already playing
+      isMusicPlaying = true;
+    }
   }
 
   a2 += map(mouseX, 0, width, 0.2, 1);
@@ -49,7 +69,7 @@ function draw() {
   gradient.addColorStop(0.8, "#E0C3C3");
   gradient.addColorStop(0.9 * noise(frameCount * 0.008), "#D8E2F1");
   gradient.addColorStop(0.9 * noise(frameCount * 0.01), "#FFE364");
-  gradient.addColorStop(0.9, "#E2D1E2"); 
+  gradient.addColorStop(0.9, "#E2D1E2");
   gradient.addColorStop(1, "#F8F6F4");
 
   for (let i = 0; i < radius * 1; i += 0.1) {
@@ -104,6 +124,39 @@ function draw() {
     let pixelColor = img.get(x, y);
     stroke(pixelColor);
     point(x, y);
+  }
+
+  // Display blue bubbles when mouse moves over
+  if (!isMousePressed) {
+    let bubble = new Bubble(mouseX, mouseY);
+    blueBubbles.push(bubble);
+  }
+
+  // Display blue bubbles
+  for (let i = 0; i < blueBubbles.length; i++) {
+    blueBubbles[i].display();
+    blueBubbles[i].update();
+  }
+}
+
+class Bubble {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.radius = random(2, 10);
+    this.opacity = 100;
+  }
+
+  display() {
+    noStroke();
+    fill(0, 191, 255, this.opacity);
+    ellipse(this.x, this.y, this.radius * 2);
+  }
+
+  update() {
+    this.radius += 0.1;
+    this.opacity -= 20;
+     
   }
 }
 
