@@ -3,85 +3,45 @@ document.body.style.overflow = `hidden`
 
 
 
-let img; // Variable to store an image
-let img2; // Variable to store an image
-let a = 0; // Angle variable
-let radius; // Variable to store the radius of the gradient
-let index = 0; // Index variable
-let a2 = 30; // Angle variable
-let col = []; // Array to store colors
+let img;
+let a = 0;
+let radius;
+let index = 0;
+let a2 = 30;
+let col = [];
 
-let isMousePressed = false; // Boolean variable to track mouse press
-let bgMusic; // Variable to store background music
-let isMusicPlaying = false; // Boolean variable to track if music is playing
+let isMousePressed = false;
 
-function preload() {
-  bgMusic = loadSound("bg_music.mp3"); // Preload the background music
-}
-
-// loops, after setup has run
 function setup() {
-  createCanvas(600, 600); // Creates a canvas with a size of 600x600 pixels
-  img = loadImage("img.jpg"); // Load an image
-
-  radius = width * 0.35; // Set the radius based on canvas width
-
-  // Define colors
+  let canvas = createCanvas(500, 500);
+  canvas.parent("sketch-container");
+  img = loadImage("image/img.jpg");
+  radius = width * 0.3;
   let col1 = color(255, 242, 197);
   let col2 = color(252, 232, 225);
   let col3 = color(197, 210, 23, 50);
-  col = [col1, col2, col3]; // Store colors in an array
-
-  angleMode(DEGREES); // Set angle mode to degrees
-
-  // Play background music
-  bgMusic.loop();
-  bgMusic.stop(); // Stop the music initially
+  col = [col1, col2, col3];
+  angleMode(DEGREES);
 }
 
-// loops, after setup has run
 function draw() {
   if (isMousePressed) {
-    a -= 0.4; // Decrease angle by 0.4 if mouse is pressed
-              // a = a-0.4
-
-    if (isMusicPlaying) {
-      bgMusic.pause(); // Pause the music if mouse is pressed
-      isMusicPlaying = false;
-    }
+    a -= 0.4; // 逆时针旋转
   } else {
-    a += 0.4; // Increase angle by 0.4 if mouse is not pressed
-              // a = a+0.4
-
-    if (!isMusicPlaying) {
-      bgMusic.loop(); // Continue playing the music if not already playing
-      isMusicPlaying = true;
-    }
+    a += 0.4; // 顺时针旋转
   }
 
-  a2 += map(mouseX, 0, width, 0.2, 1); // Map mouse position to change a2 angle
+  a2 += map(mouseX, 0, width, 0.2, 1);
 
-  let centerX = width / 2; // Calculate center X coordinate
-  let centerY = height / 2; // Calculate center Y coordinate
-  
+  let centerX = width / 2;
+  let centerY = height / 2;
 
-  // The if statement checks if the value of a is divisible by 30 without a remainder (a % 30 === 0).
   if (a % 30 === 0) {
-    index += 1; // Increment index every 30 degrees
-                // index = index + 1
+    index += 1;
   }
 
-  let ctx = drawingContext; // Get the drawing context of the canvas
-  const gradient = ctx.createRadialGradient(
-    width / 2,
-    height / 2,
-    20,
-    width / 2,
-    height / 2,
-    radius
-  ); // Create a radial gradient
-
-  // Define gradient colors using noise and mathematical expressions
+  let ctx = drawingContext;
+  const gradient = ctx.createRadialGradient(width / 2, height / 2, 20, width / 2, height / 2, radius);
   gradient.addColorStop(0, "#B9BEDE");
   gradient.addColorStop(0.5 * noise(frameCount * 0.004), "white");
   gradient.addColorStop(0.56 * noise(frameCount * 0.007), "#F2E3E4");
@@ -89,77 +49,68 @@ function draw() {
   gradient.addColorStop(0.8, "#E0C3C3");
   gradient.addColorStop(0.9 * noise(frameCount * 0.008), "#D8E2F1");
   gradient.addColorStop(0.9 * noise(frameCount * 0.01), "#FFE364");
-  gradient.addColorStop(0.9, "#E2D1E2");
+  gradient.addColorStop(0.9, "#E2D1E2"); 
   gradient.addColorStop(1, "#F8F6F4");
 
-
-  // The for loop 
   for (let i = 0; i < radius * 1; i += 0.1) {
-    let x = int(centerX + i * cos(a2)); // Calculate X coordinate based on angle and radius
-    let y = int(centerY + i * sin(a2)); // Calculate Y coordinate based on angle and radius
+    let x = int(centerX + i * cos(a2));
+    let y = int(centerY + i * sin(a2));
 
-    ctx.fillStyle = gradient; // Set fill style to the defined gradient
-    noStroke(); // Disable stroke
-    circle(x, y, 2); // Draw a small circle at (x, y) with a diameter of 2
+    ctx.fillStyle = gradient;
+    noStroke();
+    circle(x, y, 2);
   }
 
   if (random() < 0.01) {
-    index += 1; // Increment index randomly
+    index += 1;
   }
 
   for (let i = 0; i < radius * 0.5; i += 0.01) {
-    let x = int(centerX + i * cos(a)); // Calculate X coordinate based on angle and radius
-    let y = int(centerY + i * sin(a)); // Calculate Y coordinate based on angle and radius
+    let x = int(centerX + i * cos(a));
+    let y = int(centerY + i * sin(a));
 
     if (i < 15) {
-      stroke(col[index % 3]); // Set stroke color based on index
+      stroke(col[index % 3]);
     } else if (i < 30) {
-      stroke(col[(index + 1) % 3]); // Set stroke color based on index
+      stroke(col[(index + 1) % 3]);
     } else if (i < 45) {
-      stroke(col[(index + 2) % 3]); // Set stroke color based on index
+      stroke(col[(index + 2) % 3]);
     } else if (i < 70) {
-      stroke(col[(index + 4) % 3]); // Set stroke color based on index
+      stroke(col[(index + 4) % 3]);
     }
 
-    point(x, y); // Draw a point at (x, y)
+    point(x, y);
   }
 
-
-  //The for loop 
   for (let i = radius * 0.5; i < radius * 0.8; i += 0.2) {
-    let x = int(centerX + i * cos(a)); // Calculate X coordinate based on angle and radius
-    let y = int(centerY + i * sin(a)); // Calculate Y coordinate based on angle and radius
-    let colorStart = color(224, 195, 195, 80); // Define start color
-    let colorEnd = color(247, 236, 240); // Define end color
-    let t = map(i, radius * 0.7, radius * 0.3, 0, 1); // Map t value based on radius
-
-    // Generate a lerped color with noise and mathematical expressions
+    let x = int(centerX + i * cos(a));
+    let y = int(centerY + i * sin(a));
+    let colorStart = color(224, 195, 195, 80);
+    let colorEnd = color(247, 236, 240);
+    let t = map(i, radius * 0.7, radius * 0.3, 0, 1);
     let lerpedColor = lerpColor(
       colorStart,
       colorEnd,
       t + 0.3 * noise(frameCount * 0.001)
     );
-
-    strokeWeight(2); // Set stroke weight to 2 pixels
-    stroke(lerpedColor); // Set stroke color to the lerped color
-    point(x, y); // Draw a point at (x, y)
+    strokeWeight(2);
+    stroke(lerpedColor);
+    point(x, y);
   }
 
-
-  // The for loop 
   for (let i = radius * 0.8; i <= radius; i++) {
-    let x = int(centerX + i * cos(a)); // Calculate X coordinate based on angle and radius
-    let y = int(centerY + i * sin(a)); // Calculate Y coordinate based on angle and radius
-    let pixelColor = img.get(x, y); // Get the color of the pixel from the image
-    stroke(pixelColor); // Set stroke color to the pixel color
-    point(x, y); // Draw a point at (x, y)
+    let x = int(centerX + i * cos(a));
+    let y = int(centerY + i * sin(a));
+    let pixelColor = img.get(x, y);
+    stroke(pixelColor);
+    point(x, y);
   }
 }
 
 function mousePressed() {
-  isMousePressed = true; // Set isMousePressed to true when the mouse is pressed
+  isMousePressed = true;
 }
 
 function mouseReleased() {
-  isMousePressed = false; // Set isMousePressed to false when the mouse is released
+  isMousePressed = false;
 }
